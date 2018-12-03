@@ -14,6 +14,7 @@ gulp.task('copy-resource', function() {
   gulp.src('./src/**/*.css').pipe(gulp.dest('./lib'));
   gulp.src('./src/**/*.less').pipe(gulp.dest('./lib'));
   gulp.src('./src/**/*.png').pipe(gulp.dest('./lib'));
+  gulp.src('./src/**/*.ts').pipe(gulp.dest('./lib'));
 });
 
 // gulp.task('minify-css', () => {
