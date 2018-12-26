@@ -10,20 +10,30 @@ gulp.task('babel', () => {
   .pipe(gulp.dest('lib'))
 });
 
-gulp.task('copy-resource', function() {
-  gulp.src('./src/**/*.css').pipe(gulp.dest('./lib'));
-  gulp.src('./src/**/*.less').pipe(gulp.dest('./lib'));
-  gulp.src('./src/**/*.png').pipe(gulp.dest('./lib'));
-  gulp.src('./src/**/*.ts').pipe(gulp.dest('./lib'));
+gulp.task('copy-css', function() {
+  return gulp.src('./src/**/*.css').pipe(gulp.dest('./lib'));
+});
+gulp.task('copy-less', function() {
+  return gulp.src('./src/**/*.less').pipe(gulp.dest('./lib'));
+});
+gulp.task('copy-png', function() {
+  return gulp.src('./src/**/*.png').pipe(gulp.dest('./lib'));
 });
 
-// gulp.task('minify-css', () => {
-//   return gulp.src('./src/**/*.css')
-//     .pipe(concat('index.css'))
-//     .pipe(cleanCSS({compatibility: 'ie8'}))
-//     .pipe(gulp.dest('dist'));
-// });
+const copyResources = gulp.parallel('copy-css', 'copy-less', 'copy-png');
 
-gulp.task('default', ['babel', 'copy-resource',
-// 'minify-css'
-]);
+gulp.task('concat-css', () => {
+  return gulp.src('./src/**/*.css')
+    .pipe(concat('index.css'))
+    .pipe(gulp.dest('dist'));
+});
+
+gulp.task('minify-css', () => {
+  return gulp.src('./dist/index.css')
+    .pipe(concat('index.min.css'))
+    .pipe(cleanCSS({compatibility: 'ie8'}))
+    .pipe(gulp.dest('dist'));
+});
+
+
+gulp.task('default', gulp.series('babel', copyResources, 'concat-css', 'minify-css'));
