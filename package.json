@@ -1,6 +1,6 @@
 {
   "name": "zero-layout",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "通用布局",
   "main": "lib/index.js",
   "scripts": {
